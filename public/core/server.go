@@ -16,7 +16,7 @@ type AmazonController struct {
 }
 
 func (c *AmazonController) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	dudu := Jinhan()
+	dudu := smart2016()
 	io.WriteString(rw, fmt.Sprintf(`
 	<!Doctype html>
 	<html>
@@ -65,7 +65,7 @@ func help(rw http.ResponseWriter, req *http.Request) {
 	}
 	user := req.Form.Get("user")
 	password := req.Form.Get("password")
-	if user == "smart" && password == "jinhan" {
+	if user == "smart" && password == "smart2016" {
 		io.WriteString(rw, Sentiptoredis(IPPOOL))
 	} else {
 		io.WriteString(rw, "not allow!!")
@@ -80,8 +80,8 @@ func diy(rw http.ResponseWriter, req *http.Request) {
 	}
 	user := req.Form.Get("user")
 	password := req.Form.Get("password")
-	if user == "smart" && password == "jinhan" {
-		ipjinhan := []string{}
+	if user == "smart" && password == "smart2016" {
+		ipsmart2016 := []string{}
 		ipstring := req.Form.Get("ips")
 		tempips := strings.Split(ipstring, "\n")
 		for _, tempip := range tempips {
@@ -118,12 +118,12 @@ func diy(rw http.ResponseWriter, req *http.Request) {
 					}
 				}
 				if IPdudu {
-					ipjinhan = append(ipjinhan, ip)
+					ipsmart2016 = append(ipsmart2016, ip)
 				}
 			}
 		}
 
-		io.WriteString(rw, Sentiptoredis(ipjinhan))
+		io.WriteString(rw, Sentiptoredis(ipsmart2016))
 	} else {
 		io.WriteString(rw, "not allow!!")
 	}

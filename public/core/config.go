@@ -41,7 +41,7 @@ const (
 type IPSecret struct {
 	//    "d": {
 	//  "Port": "808",
-	//  "Secret": "smart:jinhan"
+	//  "Secret": "smart:smart2016"
 	//},
 	Port   string
 	Secret string

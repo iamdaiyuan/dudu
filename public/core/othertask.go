@@ -53,7 +53,7 @@ func Clean() {
 	}
 }
 
-func Jinhan() string {
+func smart2016() string {
 	urltotal, _ := RedisClient.Llen(MyConfig.Urlpool)
 	urldone, _ := RedisClient.Hlen(MyConfig.Urlhashpool)
 	asintotal, _ := RedisClient.Llen(MyConfig.Asinpool)

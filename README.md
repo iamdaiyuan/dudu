@@ -166,7 +166,7 @@ https://yun.baidu.com/s/1hrF0QC8 找到mysql文件夹，下面的5.6.17.0.msi根
 
 三.Redis安装
 
-https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shift+右键 在此次打开命令窗口 输入“redis-server.exe redis.conf ”，在redis.conf设置密码jinhan,已经设置好
+https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shift+右键 在此次打开命令窗口 输入“redis-server.exe redis.conf ”，在redis.conf设置密码smart2016,已经设置好
 
 四.修改配置文件
 
@@ -205,7 +205,7 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
   "Spiderloglevel": "INFO",  //爬虫日志记录，可不管
   "Redisconfig": {  // redis配置
     "Host": "45.41.88.189:6379",  //主机
-    "Password": "jinhan",   //密码
+    "Password": "smart2016",   //密码
     "DB": 0
   },
   "Redispoolsize": 100,  // redis程序库连接池最大数量，应该比Listtasknum和Asintasknum都大
@@ -213,14 +213,14 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
     "Ip": "45.41.88.187",
     "Port": "3306",
     "Username": "root",
-    "Password": "jinhan",
+    "Password": "smart2016",
     "Dbname": "smart_base"
   },
   "Hashdb": {   //历史数据库配置
     "Ip": "45.41.88.187",
     "Port": "3306",
     "Username": "root",
-    "Password": "jinhan",
+    "Password": "smart2016",
     "Dbname": "smart_hash"
   },
   "Hashnum": 500,   //历史数据库按hashcode分表，分表数量
@@ -228,25 +228,25 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
     "Ip": "45.41.88.187",
     "Port": "3306",
     "Username": "root",
-    "Password": "jinhan",
+    "Password": "smart2016",
     "Dbname": "smartdb"
   },
   "Ipuse": {   //要用的IP组
     "d": {    //端口和密码，密码可留空，组名所在的IP在下面
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     },
     "e": {
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     },
     "f": {
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     },
     "h": {
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     }
   },
   "Ips": {

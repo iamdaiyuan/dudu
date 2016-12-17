@@ -11,7 +11,7 @@ def getFirefox(url, ip, total=1):
         "host": ip.split(":")[0],
         "port": ip.split(":")[1],
         "user": "smart",
-        "pass": "jinhan"
+        "pass": "smart2016"
     }
     profile = webdriver.FirefoxProfile()
     # add new header

@@ -30,7 +30,7 @@
   "Spiderloglevel": "INFO",
   "Redisconfig": {
     "Host": "127.0.0.1:6379",
-    "Password": "jinhan",
+    "Password": "smart2016",
     "DB": 0
   },
   "Redispoolsize": 100,
@@ -38,14 +38,14 @@
     "Ip": "127.0.0.1",
     "Port": "3306",
     "Username": "root",
-    "Password": "jinhan",
+    "Password": "smart2016",
     "Dbname": "smart_base"
   },
   "Hashdb": {
     "Ip": "127.0.0.1",
     "Port": "3306",
     "Username": "root",
-    "Password": "jinhan",
+    "Password": "smart2016",
     "Dbname": "smart_hash"
   },
   "Hashnum": 500,
@@ -53,25 +53,25 @@
     "Ip": "127.0.0.1",
     "Port": "3306",
     "Username": "root",
-    "Password": "jinhan",
+    "Password": "smart2016",
     "Dbname": "smartdb"
   },
   "Ipuse": {
     "d": {
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     },
     "e": {
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     },
     "f": {
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     },
     "h": {
       "Port": "808",
-      "Secret": "smart:jinhan"
+      "Secret": "smart:smart2016"
     },
     "other": {
       "Port": "8080"
