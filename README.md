@@ -1,3 +1,265 @@
+# Distributed GoAmazon Spider
+
+Due to Mysql Select, When mysql table data more than 1000,000, will be slow... So Version2 Fix and Add another feature, repo is in [https://github.com/hunterhug/AmazonGo](https://github.com/hunterhug/AmazonGo), Bugfix a lot and best!
+
+Ad API Go to [http://affiliate-program.amazon.com/](http://affiliate-program.amazon.com/)
+
+Web is GoAmazonWeb See [https://github.com/beautytop/duduweb](https://github.com/beautytop/duduweb)
+
+Support UAS/Japan/Germany/UK, Amazing!
+
+1. USA done!
+2. Japan done！
+3. Germany done!
+4. UK done!
+
+And Japan will change some code, attention!
+
+## Introduction
+
+Catch the best seller items in Amazon USA! Using redis to store proxy ip and the category url. First fetch items list and then collect 
+many Asin, store in mysql. Items list catch just for the Asin, and we suggest one month or several weeks to fetch list page. We just need fetch the Asin
+detail page and everything we get!
+
+We keep all Asin in one big table. And if catch detail 404, we set it as not valid. Also we can use API catch big rank but look not so good!
+
+So, there are two ways to get the big rank
+
+1.catch list page(not proxy), using API get the big rank
+
+2.catch list page(not proxy), and then get asin detail page(proxy), API can not catch all the asin big rank so must use this!
+
+Due to we want list smallrank and the bigrank at the same time, but mysql update is so slow, we make two tables to save, one is smallrank, one is bigrank!
+
+We want rank by those Asin:
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/list.png)
+
+Data we want:
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/web.png)
+
+# How to use
+
+We need **Redis** and **Mysql** and some develop environment, Such as Proxy IP Machine. So can learn by [http://www.lenggirl.com/code/centos7.html](http://www.lenggirl.com/code/centos7.html)
+
+Got it!
+
+```bash
+    go get -v -u github.com/beautytop/dudu
+```
+
+for the reason that it using my library, so you can 
+
+```bash
+    go get -u -v github.com/hunterhug/go_tool
+    go get -v github.com/hunterhug/go_image
+    go get -v github.com/hunterhug/go-hbase
+    go get -v gopkg.in/redis.v4
+    go get -v github.com/gocql/gocql
+    go get -v golang.org/x/net/context
+    go get github.com/PuerkitoBio/goquery
+```
+
+run it like that
+
+```bash
+#!/bin/sh
+nohup go run  *.go > ip.txt 2>&1 &
+```
+
+make a config and read the code!
+
+First config:
+
+```bash
+
+  "Urlsql": "SELECT distinct url,id,name,bigpname FROM smart_category where isvalid=1 and (bigpid='3'or bigpid='4'or bigpid='5'or bigpid='6'
+or bigpid='8'or bigpid='9'or bigpid='12'or bigpid='13'or bigpid='17'or bigpid='18'
+or bigpid='19'or bigpid='20'or bigpid='23'or bigpid='24'or bigpid='31'or bigpid='32'
+or bigpid='36'or bigpid='38'or bigpid='39')Limit 100000",  // the list page you want
+  "Asinsql": "SELECT distinct asin as id FROM `{?}` where iscatch=0 limit 1000000",    //{?} will replace by Today, can ignore and change! the detail page you want
+  
+  other discover it by yourself
+```
+
+then 
+
+```bash
+go run ippool.go  ( sent ip to redis pool  proxy can use)
+go run urlpool.go  (send category url to redis pool the list url we want to catch)
+go run listmain.go ( catch the list page and keep local,20161111!)
+go run asinpool.go ( sent asin url to redis pool we want to catch)
+go run asinmain.go( catch asin detail page!one table asin20161111 and others is A?!)
+```
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/run.png)
+
+## Design
+
+One picture is more than a lot of words!
+
+<div style="text-align:center">
+<img src="https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/gosipder.jpg" style="text-align:center">
+</div>
+
+Redis Data like that:
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/redis.png)
+
+And URL fetch like this, url many be repeat:
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/urlcut.png)
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/url.jpg)
+
+Final Url data:
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/mysql.png)
+
+## SQL
+
+As sql:
+
+```sql
+--- smart_base
+--- category
+CREATE TABLE `smart_category` (
+  `id` varchar(100) NOT NULL,
+  `url` varchar(255) DEFAULT NULL COMMENT '类目链接',
+  `name` varchar(255) DEFAULT NULL COMMENT '类目名字',
+  `level` tinyint(4) DEFAULT NULL COMMENT '类目级别',
+  `pid` varchar(100) DEFAULT NULL COMMENT '父类id',
+  `createtime` datetime DEFAULT NULL COMMENT '创建时间',
+  `updatetime` datetime DEFAULT NULL COMMENT '更新时间',
+  `isvalid` tinyint(4) DEFAULT '0' COMMENT '是否有效',
+  `page` tinyint(4) DEFAULT '5' COMMENT '抓取页数',
+  `database` varchar(255) DEFAULT NULL COMMENT '存储数据库',
+  `col1` varchar(255) DEFAULT NULL COMMENT '预留字段',
+  `col2` varchar(255) DEFAULT NULL,
+  `col3` varchar(255) DEFAULT NULL,
+  `bigpname` varchar(255) DEFAULT NULL COMMENT '大类名字',
+  `bigpid` varchar(100) DEFAULT NULL COMMENT '大类ID',
+  `ismall` tinyint(4) DEFAULT '0' COMMENT '是否最小类',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url_UNIQUE` (`url`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='类目';
+
+
+--- ASIN Collect
+CREATE TABLE `smart_asin` (
+  `id` varchar(100) NOT NULL,
+  `createtime` varchar(255) DEFAULT NULL COMMENT '添加时间',
+  `updatetime` varchar(255) DEFAULT NULL COMMENT '更新时间',
+  `category` varchar(255) DEFAULT NULL COMMENT "which category",
+  `times` int(11) DEFAULT '0' COMMENT '重复次数',
+  `isvalid` tinyint(4) DEFAULT '1' COMMENT "valid",
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Asin Big Data';
+
+--- Big rank by asin!
+  CREATE TABLE `A1` (
+  `id` varchar(150) NOT NULL,
+  `day` varchar(150) NOT NULL,
+  `bigname` varchar(255) DEFAULT NULL COMMENT '大类名',
+  `title` TEXT COMMENT '商品标题',
+  `rank` int(11) DEFAULT NULL COMMENT '大类排名',
+  `price` float DEFAULT NULL,
+  `sold` varchar(255) DEFAULT NULL COMMENT '自营',
+  `ship` varchar(255) DEFAULT NULL COMMENT 'FBA',
+  `score` float DEFAULT NULL COMMENT '打分',
+  `reviews` int(11) DEFAULT NULL COMMENT '评论数',
+  `createtime` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`,`day`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--- smartdb
+--- Smallrank by date!
+CREATE TABLE `20161028` (
+  `id` VARCHAR(150),
+  `purl` varchar(255) DEFAULT NULL COMMENT '父类类目链接',
+  `col1` varchar(255) DEFAULT NULL COMMENT '预留字段',
+  `col2` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  `iscatch` tinyint(4) DEFAULT '0' COMMENT '已抓取是1',
+  `smallrank` INT NULL COMMENT '小类排名',
+  `name` VARCHAR(255) NULL COMMENT '小类名',
+  `bigname` VARCHAR(255) NULL COMMENT '大类名',
+  `rbigname` VARCHAR(255) NULL COMMENT '实际大类名',
+  `title` TEXT NULL COMMENT '商品标题',
+  `asin` VARCHAR(255) NULL,
+  `url` VARCHAR(255) NULL,
+  `rank` INT NULL COMMENT '大类排名',
+  `soldby` VARCHAR(255) NULL COMMENT '卖家',
+  `shipby` VARCHAR(255) NULL COMMENT '物流',
+  `price` VARCHAR(255) NULL COMMENT '价格',
+  `score` FLOAT NULL COMMENT '打分',
+  `reviews` INT NULL COMMENT '评论数',
+  `commenttime` VARCHAR(255) NULL COMMENT '第一条评论时间',
+  `createtime` VARCHAR(255) NULL,
+  `updatetime` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`))ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--- Big rank by date!
+  CREATE TABLE `Asin20161028` (
+  id VARCHAR(150),
+  bigname VARCHAR(255) NULL COMMENT '大类名',
+  title TEXT NULL COMMENT '商品标题',
+  rank INT NULL COMMENT '大类排名',
+  price FLOAT NULL,
+  sold VARCHAR(255) NULL COMMENT '自营',
+  ship VARCHAR(255) NULL COMMENT 'FBA',
+  score FLOAT NULL COMMENT '打分',
+  reviews INT NULL COMMENT '评论数',
+  createtime VARCHAR(255) NULL,
+  img VARCHAR(255) NULL,
+  PRIMARY KEY (`id`))ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+add the connections of mysql:
+
+```
+show variables like '%max_connections%';
+set global max_connections=2000
+```
+
+##  Anti robot
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/robot.png)
+
+We test a lot,if a ip no stop and more than 500 times http get,the list page will no robot,but the detail asin page will be robot.
+So we bind a proxy ip with and fix useragent, and keep all cookie. But it still happen, a IP die still can fetch detail page after 26-100times get,
+It tell us we can still ignore robot, and catch max 100 times we will get that page. robot page is about 7KB.
+
+However, if a lot of request, will be like that 500 error, hahaha
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/500.jpg)
+
+Then if robot you get the picture, will be dead!!! dangeous!
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/jinhan.png)
+
+Anti robot is change IP, keep all cookie. Japan List page is anti-robot but USA not!
+
+## Cost
+
+For reason that the detail page is such large that waste a lot of disk space, we save the list page in the local file and the detail page you can
+decide whether to save it or not.
+
+following is the cost of time and store
+
+![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/hehe.jpg)
+
+
+## Question
+
+Another python version:https://github.com/skypika/smartdo, I suppose not to use!
+
+EveryQuestion you can Email me gdccmcm14@live.com or 569929309@qq.com to contact me, 
+
 # Design
 
 ![](https://raw.githubusercontent.com/beautytop/dudu/master/doc/img/1.jpg)
