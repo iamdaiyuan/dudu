@@ -1,7 +1,4 @@
 # Distributed GoAmazon Spider
-
-Due to Mysql Select, When mysql table data more than 1000,000, will be slow... So Version2 Fix and Add another feature, repo is in [https://github.com/hunterhug/AmazonGo](https://github.com/hunterhug/AmazonGo), Bugfix a lot and best!
-
 Ad API Go to [http://affiliate-program.amazon.com/](http://affiliate-program.amazon.com/)
 
 Web is GoAmazonWeb See [https://github.com/beautytop/duduweb](https://github.com/beautytop/duduweb)

@@ -4,4 +4,4 @@ export PYTHONPATH=/data/www/python/smartdo
 export GOPATH=/data/www/web/go
 export GOBIN=/data/app/go/bin
 export GOROOT=/data/app/go
-nohup go run /data/www/web/go/src/github.com/hunterhug/AmazonGo/spiders/uk/ippool.go  > /data/www/web/go/src/github.com/hunterhug/AmazonGo/sh/uk/ippool.log 2>&1 &
+nohup go run /data/www/web/go/src/github.com/beautytop/dudu/spiders/uk/ippool.go  > /data/www/web/go/src/github.com/beautytop/dudu/sh/uk/ippool.log 2>&1 &
