@@ -195,7 +195,7 @@ func IPPool() {
 	OpenMysql()
 	ips := getips()
 	if len(ips) == 0 {
-		panic("ip zero")
+		//panic("ip zero")
 	}
 	shuips := shuffleip(ips)
 	IPPOOL = shuips

@@ -1,7 +1,10 @@
 // a go spider!
 package dudu
 
-import "github.com/hunterhug/go_tool/util"
+import (
+	"github.com/hunterhug/go_tool/util"
+	"fmt"
+)
 
 var Dir = util.CurDir()
 var Local = true
@@ -9,5 +12,6 @@ var Local = true
 func init() {
 	if util.FileExist(Dir + "/远程.txt") {
 		Local = false
+		fmt.Println("远程方式！！！")
 	}
 }
