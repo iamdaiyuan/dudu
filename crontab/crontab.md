@@ -6,6 +6,10 @@
 50 0 * * * mysqldump -uroot -psmart2016 -q smartdb Asin$(date -d yesterday +\%Y\%m\%d) > /data/www/web/go/src/github.com/beautytop/duduWeb/file/sql/usaasin$(date -d yesterday +\%Y\%m\%d).sql.gz
 10 1 * * * mysqldump -uroot -psmart2016 -q jp_smartdb $(date -d yesterday +\%Y\%m\%d) > /data/www/web/go/src/github.com/beautytop/duduWeb/file/sql/jp$(date -d yesterday +\%Y\%m\%d).sql.gz
 30 1 * * * mysqldump -uroot -psmart2016 -q jp_smartdb Asin$(date -d yesterday +\%Y\%m\%d) > /data/www/web/go/src/github.com/beautytop/duduWeb/file/sql/jpasin$(date -d yesterday +\%Y\%m\%d).sql.gz
+10 1 * * * mysqldump -uroot -psmart2016 -q de_smartdb $(date -d yesterday +\%Y\%m\%d) > /data/www/web/go/src/github.com/beautytop/duduWeb/file/sql/de$(date -d yesterday +\%Y\%m\%d).sql.gz
+30 1 * * * mysqldump -uroot -psmart2016 -q de_smartdb Asin$(date -d yesterday +\%Y\%m\%d) > /data/www/web/go/src/github.com/beautytop/duduWeb/file/sql/deasin$(date -d yesterday +\%Y\%m\%d).sql.gz
+10 1 * * * mysqldump -uroot -psmart2016 -q uk_smartdb $(date -d yesterday +\%Y\%m\%d) > /data/www/web/go/src/github.com/beautytop/duduWeb/file/sql/uk$(date -d yesterday +\%Y\%m\%d).sql.gz
+30 1 * * * mysqldump -uroot -psmart2016 -q uk_smartdb Asin$(date -d yesterday +\%Y\%m\%d) > /data/www/web/go/src/github.com/beautytop/duduWeb/file/sql/ukasin$(date -d yesterday +\%Y\%m\%d).sql.gz
 0 2 * * * /data/www/web/go/src/github.com/beautytop/dudu/crontab/usa/ip.sh  >> /data/www/web/go/src/github.com/beautytop/dudu/haha.log 2>&1 &
 5 2 * * * /data/www/web/go/src/github.com/beautytop/dudu/crontab/usa/urlpool.sh  >> /data/www/web/go/src/github.com/beautytop/dudu/haha.log 2>&1 &
 10 2 * * * /data/www/web/go/src/github.com/beautytop/dudu/crontab/usa/helpspider.sh  >> /data/www/web/go/src/github.com/beautytop/dudu/haha.log 2>&1 &
