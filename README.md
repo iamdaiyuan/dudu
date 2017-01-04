@@ -551,7 +551,11 @@ binlog-ignore-db=mysql
 
 4.flush tables with read lock; 
 
-5.unlock tables; 
+5.show master status;
+
+ mysql-bin.000001 |     6503 |              | information_schema,beauty,mysql |     
+ 
+6.unlock tables; 
 ```
 
 Slave
@@ -575,7 +579,7 @@ master-password=123456
 
 2.service mysqld restart
 3.slave stop;
-4.change master to master_host='192.168.2.119',master_user='root',master_password='pfingo',master_log_file='mysql-bin.000001', master_log_pos=98;
+4.change master to master_host='192.168.2.119',master_user='smart',master_password='123456',master_log_file='mysql-bin.000001', master_log_pos=6503;
 5.slave start;
 6.how slave status
 ```
