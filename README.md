@@ -564,19 +564,10 @@ Slave
 ```
 1.vim /etc/my.cnf
 [mysqld]
-log-bin=mysql-bin
 server-id=2
-binlog-ignore-db=information_schema
-binlog-ignore-db=beauty
-binlog-ignore-db=mysql
-#replicate-do-db=test
-replicate-ignore-db=mysql
-log-slave-updates
-slave-skip-errors=all
-slave-net-timeout=60
 
-2.slave stop;
+2.stop slave ;
 3.change master to master_host='192.168.2.119',master_user='smart',master_password='123456',master_log_file='mysql-bin.000001', master_log_pos=6503;
-4.slave start;
+4.start slave ;
 5.show slave status
 ```
