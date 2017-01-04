@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/beautytop/dudu"
 	"github.com/beautytop/dudu/public/core"
+	"fmt"
 )
 
 func main() {
@@ -14,6 +15,7 @@ func main() {
 	//Todo
 	go func() {
 		host := ":12345"
+		fmt.Println("开始监控IP")
 		ac := &core.AmazonController{Message: "usa spider running", SpiderType: "IP process is running"}
 		err := core.ServePort(host, ac)
 		if err != nil {

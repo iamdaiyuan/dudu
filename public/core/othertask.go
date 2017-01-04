@@ -14,23 +14,30 @@ func Montior() {
 		asindone, e4 := RedisClient.Hlen(MyConfig.Asinhashpool)
 		ipremain, e5 := RedisClient.Llen(MyConfig.Proxypool)
 		sql := "INSERT INTO `smart_monitor`(id,redistype,doing,done,createtime)VALUES(?,?,?,?,?)on duplicate key update doing=?,done=?,updatetime=?"
+		fmt.Printf("e1:%v,e2:%v,e3:%v,e4:%v,e5:%v\n", e1, e2, e3, e4, e5)
 		if e1 == nil && e2 == nil {
 			_, err := BasicDb.Insert(sql, Today, "urlpool", urltotal, urldone, util.TodayString(6), urltotal, urldone, util.TodayString(6))
 			if err == nil {
 				fmt.Printf("dbur-%v,%v,%v,%v,%v\n", urltotal, urldone, asintotal, asindone, ipremain)
+			} else {
+				fmt.Println("urlpoolinsert:" + err.Error())
 			}
 		}
 		if e3 == nil && e4 == nil {
 			_, err := BasicDb.Insert(sql, Today, "asinpool", asintotal, asindone, util.TodayString(6), asintotal, asindone, util.TodayString(6))
 			if err == nil {
 				fmt.Printf("dbas-%v,%v,%v,%v,%v\n", urltotal, urldone, asintotal, asindone, ipremain)
+			} else {
+				fmt.Println("asinpoolinsert:" + err.Error())
 			}
 		}
 		if e5 == nil {
-			_, err := BasicDb.Insert(sql, Today, "ippool", ipremain, 0, util.TodayString(6), ipremain, 0, util.TodayString(6))
-			if err == nil {
+			//_, err := BasicDb.Insert(sql, Today, "ippool", ipremain, 0, util.TodayString(6), ipremain, 0, util.TodayString(6))
+			//if err == nil {
 				fmt.Printf("dbip-%v,%v,%v,%v,%v\n", urltotal, urldone, asintotal, asindone, ipremain)
-			}
+			//} else {
+			//	fmt.Println("ippoolinsert:" + err.Error())
+			//}
 		}
 		fmt.Println("----------------")
 		util.Sleep(30)

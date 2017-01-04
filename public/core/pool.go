@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"github.com/beautytop/dudu"
 	"github.com/hunterhug/go_tool/util"
 	"strings"
 )
@@ -191,15 +192,70 @@ func Sentiptoredis(ips []string) string {
 
 var IPPOOL []string = []string{}
 
+func GetIPfromglobal(ipstring string) []string {
+	ipsmart2016 := []string{}
+	tempips := strings.Split(ipstring, "\n")
+	for _, tempip := range tempips {
+		ip := strings.TrimSpace(strings.Replace(tempip, "\r", "", -1))
+		dudu := strings.Split(ip, ".")
+		if len(dudu) != 4 {
+			continue
+		} else {
+			IPdudu := true
+			for _, d := range dudu {
+				tempd := d
+				d1 := strings.Split(d, "@")
+				if len(d1) == 2 {
+					tempd = d1[1]
+				}
+				if len(d1) > 2 {
+					IPdudu = false
+					break
+				}
+				d2 := strings.Split(tempd, ":")
+				if len(d2) > 2 {
+					IPdudu = false
+					break
+				}
+				tempd = d2[0]
+				dnum, de := util.SI(tempd)
+				if de != nil {
+					IPdudu = false
+					break
+				}
+				if dnum > 255 || dnum <= 0 {
+					IPdudu = false
+					break
+				}
+			}
+			if IPdudu {
+				ipsmart2016 = append(ipsmart2016, ip)
+			}
+		}
+	}
+	return ipsmart2016
+}
 func IPPool() {
 	OpenMysql()
 	ips := getips()
 	if len(ips) == 0 {
+		fmt.Println("IP config配置中没有IP")
 		//panic("ip zero")
 	}
 	shuips := shuffleip(ips)
+	d, e := util.ReadfromFile(dudu.Dir + "/ip.txt")
+	if e != nil {
+		fmt.Println("ip.txt problem" + e.Error())
+	} else {
+		dududu := GetIPfromglobal(string(d))
+		if len(dududu) == 0 {
+			fmt.Println("ip.txt为空")
+		} else {
+			shuips = append(shuips, dududu...)
+		}
+	}
 	IPPOOL = shuips
-	fmt.Printf("%#v\n", shuips)
+	//fmt.Printf("%#v\n", shuips)
 	Sentiptoredis(shuips)
 	go Clean()
 	// montior
