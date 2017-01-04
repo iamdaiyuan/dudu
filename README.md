@@ -435,7 +435,7 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
 {
   "Type": "USA",     //美国站类型，有四种usa,jp,uk,de
   "Datadir": "/data/db/usa",   // 文件保存位置，可选择保存，/代表在本盘下
-  "Proxymaxtrytimes": 20,     // 机器人错误最大次数，超过换IP
+  "Proxymaxtrytimes": 40,     // 机器人错误最大次数，超过换IP
   "Rank": 500000,               // 只保存排名在这个数字之前的商品
   "Listtasknum": 30,        // 抓列表页进程数，建议不要太大，并发最多设置50
   "Asintasknum": 30,      // 抓详情页进程数，建议不要太大，并发最多设置50
@@ -460,7 +460,7 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
   "Urlsql": "SELECT distinct url,id,bigpid ,name,bigpname,page FROM smart_category where isvalid=1 order by bigpid limit 100000",  //抓取那些列表页，可改
   "Asinsql": "SELECT distinct asin as id FROM `{?}` order by bigname limit 1000000", //抓取哪些Asin，{?}是程序预带占位符，被今天日期替代，可去掉
   "Spidersleeptime": 3, // 无用
-  "Spidertimeout": 20,  //链接抓取超时时间
+  "Spidertimeout": 35,  //链接抓取超时时间
   "Spiderloglevel": "INFO",  //爬虫日志记录，可不管
   "Redisconfig": {  // redis配置
     "Host": "45.41.88.189:6379",  //主机
