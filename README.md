@@ -534,6 +534,7 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
 
 http://blog.csdn.net/faye0412/article/details/6280761
 
+
 Master
 ```
 1.vim /etc/my.cnf
