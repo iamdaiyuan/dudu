@@ -528,3 +528,54 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
 6. 点击asinmain.exe抓取详情页
 
 7. 如果配置中Asinautopool设置为false，那么需要自己导Asin,运行asinpool.exe
+
+
+## MYSQL主从
+
+http://blog.csdn.net/faye0412/article/details/6280761
+
+Master
+```
+1.vim /etc/my.cnf
+
+[mysqld]
+log-bin=mysql-bin
+server-id=1
+binlog-ignore-db=information_schema
+binlog-ignore-db=beauty
+binlog-ignore-db=mysql
+
+2.service mysqld restart
+
+3.grant all privileges on *.* to 'smart'@'%' identified by '123456'; 
+
+4.flush tables with read lock; 
+
+5.unlock tables; 
+```
+
+Slave
+
+```
+1.vim /etc/my.cnf
+[mysqld]
+log-bin=mysql-bin
+server-id=2
+binlog-ignore-db=information_schema
+binlog-ignore-db=beauty
+binlog-ignore-db=mysql
+#replicate-do-db=test
+replicate-ignore-db=mysql
+log-slave-updates
+slave-skip-errors=all
+slave-net-timeout=60
+master-host=192.168.2.119
+master-user=smart
+master-password=123456
+
+2.service mysqld restart
+3.slave stop;
+4.change master to master_host='192.168.2.119',master_user='root',master_password='pfingo',master_log_file='mysql-bin.000001', master_log_pos=98;
+5.slave start;
+6.how slave status
+```
