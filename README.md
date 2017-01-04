@@ -573,9 +573,6 @@ replicate-ignore-db=mysql
 log-slave-updates
 slave-skip-errors=all
 slave-net-timeout=60
-master-host=192.168.2.119
-master-user=smart
-master-password=123456
 
 2.slave stop;
 3.change master to master_host='192.168.2.119',master_user='smart',master_password='123456',master_log_file='mysql-bin.000001', master_log_pos=6503;
