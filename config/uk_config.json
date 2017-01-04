@@ -2,7 +2,7 @@
   "Type": "UK",
   "Datadir": "/data/db/uk",
   "Proxymaxtrytimes": 40,
-  "Rank": 500000,
+  "Rank": 50000,
   "Listtasknum": 30,
   "Asintasknum": 30,
   "Localtasknum": 150,

@@ -436,7 +436,7 @@ https://yun.baidu.com/s/1jHKUGZG 选择redis64bit或32bit，解压 ，然后Shif
   "Type": "USA",     //美国站类型，有四种usa,jp,uk,de
   "Datadir": "/data/db/usa",   // 文件保存位置，可选择保存，/代表在本盘下
   "Proxymaxtrytimes": 40,     // 机器人错误最大次数，超过换IP
-  "Rank": 500000,               // 只保存排名在这个数字之前的商品
+  "Rank": 50000,               // 只保存排名在这个数字之前的商品
   "Listtasknum": 30,        // 抓列表页进程数，建议不要太大，并发最多设置50
   "Asintasknum": 30,      // 抓详情页进程数，建议不要太大，并发最多设置50
   "Localtasknum": 150,  // 本地文件处理进程数，建议不要太大，并发最多设置50，可不管
