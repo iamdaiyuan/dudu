@@ -8,6 +8,7 @@ import (
 	"github.com/hunterhug/go_tool/spider"
 	"github.com/hunterhug/go_tool/util"
 	"strings"
+	"fmt"
 )
 
 var (
@@ -159,9 +160,12 @@ func InitConfig(cfpath string, logpath string) {
 }
 
 func OpenMysql() {
-	BasicDb.Open()
-	DataDb.Open()
-	HashDb.Open()
+	fmt.Println("open basicdb")
+	BasicDb.Open(2000,0)
+	fmt.Println("open db")
+	DataDb.Open(2000,0)
+	fmt.Println("open hashdb")
+	HashDb.Open(2000,0)
 }
 
 func MapUrl(spidertype int) {
