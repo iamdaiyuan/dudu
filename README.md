@@ -358,6 +358,12 @@ SHOW VARIABLES like 'max_%';
 set GLOBAL max_connections=5000
 ```
 
+or
+
+```
+[mysqld]
+max_connections=65535
+```
 
 q3
 
