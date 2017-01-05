@@ -161,11 +161,11 @@ func InitConfig(cfpath string, logpath string) {
 
 func OpenMysql() {
 	fmt.Println("open basicdb")
-	BasicDb.Open(2000,0)
+	BasicDb.Open(300,100)
 	fmt.Println("open db")
-	DataDb.Open(2000,0)
+	DataDb.Open(300,100)
 	fmt.Println("open hashdb")
-	HashDb.Open(2000,0)
+	HashDb.Open(300,100)
 }
 
 func MapUrl(spidertype int) {

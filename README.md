@@ -374,6 +374,24 @@ DNS skip
 skip-name-resolve
 ```
 
+q4
+
+Cannot assign requested address
+
+```
+1. 调低端口释放后的等待时间，默认为60s，修改为15~30s
+sysctl -w net.ipv4.tcp_fin_timeout=30
+2. 修改tcp/ip协议配置， 通过配置/proc/sys/net/ipv4/tcp_tw_resue, 默认为0，修改为1，释放TIME_WAIT端口给新连接使用
+sysctl -w net.ipv4.tcp_timestamps=1
+3. 修改tcp/ip协议配置，快速回收socket资源，默认为0，修改为1
+sysctl -w net.ipv4.tcp_tw_recycle=1
+
+
+sysctl -w net.ipv4.tcp_fin_timeout=30
+sysctl -w net.ipv4.tcp_timestamps=1
+sysctl -w net.ipv4.tcp_tw_recycle=1
+```
+
 total
 
 ```
