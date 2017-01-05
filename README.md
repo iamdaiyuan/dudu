@@ -374,6 +374,15 @@ DNS skip
 skip-name-resolve
 ```
 
+total
+
+```
+max_connections = 15000
+max_connect_errors = 6000
+open_files_limit = 65535
+table_open_cache = 1000
+skip-name-resolve
+```
 
 # 中文介绍
 
