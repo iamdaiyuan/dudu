@@ -57,6 +57,7 @@ func InsertAsinMysql(items []map[string]string, createtime string, category stri
 }
 
 func SetAsinInvalid(url string) error {
+	return nil
 	// Todo not need
 	temp := strings.Split(url, "/dp/")
 	if len(temp) != 2 {
@@ -68,6 +69,7 @@ func SetAsinInvalid(url string) error {
 }
 
 func SetAsinToRightCategory(asin, num string) error {
+	return nil
 	// Todo not need
 	sql := "UPDATE smart_asin SET category=? where id=? limit 1"
 	_, err := BasicDb.Insert(sql, num, asin)
