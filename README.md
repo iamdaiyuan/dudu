@@ -348,6 +348,7 @@ q2:
 
 ```
 mysql error:Error 1040: Too many connections
+show variables like '%max_connect%';
 ```
 
 solve it
@@ -362,7 +363,7 @@ or
 
 ```
 [mysqld]
-max_connections=65535
+max_connections=15000
 ```
 
 q3
