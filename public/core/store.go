@@ -38,19 +38,18 @@ func InsertAsinMysql(items []map[string]string, createtime string, category stri
 			AmazonListLog.Errorf("20161111 Mysql err:%s,%s,%s", item["asin"], createtime, err.Error())
 		} else {
 			AmazonListLog.Debugf("20161111 Mysql:%s,%s", item["asin"], createtime)
-
-			goodinfo := fmt.Sprintf("%s|%s|%s|%s", item["img"], item["price"], item["score"], item["reviews"])
-			if MyConfig.Extrafromredis {
-				RedisClient.Hset(MyConfig.Otherhashpool, item["asin"], goodinfo)
-			}
-			// sent to redis
-			if MyConfig.Asinautopool {
-				_, errp := RedisClient.Lpush(MyConfig.Asinpool, URL+"/dp/"+item["asin"])
-				if errp != nil {
-					AmazonListLog.Errorf("Sent to Asinpool Redis error:%v,%v", item["asin"], errp)
-				} else {
-					AmazonListLog.Debugf("Sent to Asinpool Redis :%s", item["asin"])
-				}
+		}
+		goodinfo := fmt.Sprintf("%s|%s|%s|%s", item["img"], item["price"], item["score"], item["reviews"])
+		if MyConfig.Extrafromredis {
+			RedisClient.Hset(MyConfig.Otherhashpool, item["asin"], goodinfo)
+		}
+		// sent to redis
+		if MyConfig.Asinautopool {
+			_, errp := RedisClient.Lpush(MyConfig.Asinpool, URL+"/dp/"+item["asin"])
+			if errp != nil {
+				AmazonListLog.Errorf("Sent to Asinpool Redis error:%v,%v", item["asin"], errp)
+			} else {
+				AmazonListLog.Debugf("Sent to Asinpool Redis :%s", item["asin"])
 			}
 		}
 	}
