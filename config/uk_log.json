@@ -20,18 +20,21 @@
   "Loggers": {
     "daylist": {
       "Appenders": [
+        "console",
         "daylist"
       ],
       "Level": "error"
     },
     "dayasin": {
       "Appenders": [
+        "console",
         "dayasin"
       ],
       "Level": "error"
     },
     "dayip": {
       "Appenders": [
+        "console",
         "dayip"
       ],
       "Level": "error"
