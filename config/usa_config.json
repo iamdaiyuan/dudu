@@ -4,7 +4,7 @@
   "Proxymaxtrytimes": 40,
   "Rank": 50000,
   "Listtasknum": 30,
-  "Asintasknum": 30,
+  "Asintasknum": 50,
   "Localtasknum": 150,
   "Proxypool": "USAIPPOOL",
   "Proxyhashpool": "USAIPPOLLHASH",
