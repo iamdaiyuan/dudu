@@ -299,12 +299,12 @@ func GetUrls() error {
 		if page > 5 || page < 0 {
 			page = 5
 		}
-
-		if SpiderType == JP {
-			ip, _ = GetJapanUrl(ip, url, filename, name, bigname, page)
-		} else {
-			ip, _ = GetUrl(ip, url, filename, name, bigname, page)
-		}
+		//Todo
+		//if SpiderType == JP {
+		ip, _ = GetJapanUrl(ip, url, filename, name, bigname, page)
+		//} else {
+		//ip, _ = GetUrl(ip, url, filename, name, bigname, page)
+		//}
 		// done! rem redis deal pool
 		RedisClient.Lrem(MyConfig.Urldealpool, 0, urlmap)
 		// throw it to a hash pool
@@ -354,7 +354,8 @@ func GetNoneProxyUrls(taskname string) error {
 		if page > 5 || page < 0 {
 			page = 5
 		}
-		GetUrl(ip, url, filename, name, bigname, page)
+		//japan you can!!
+		GetJapanUrl(ip, url, filename, name, bigname, page)
 
 		// done! rem redis deal pool
 		RedisClient.Lrem(MyConfig.Urldealpool, 0, urlmap)
