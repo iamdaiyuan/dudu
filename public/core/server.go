@@ -29,6 +29,16 @@ func (c *AmazonController) ServeHTTP(rw http.ResponseWriter, req *http.Request) 
 	SpiderType:%s<br/>Message:%s<br/>Host:%s<br/><br/>
 	%s
 	<div>
+	<h1>Export URLS AGAIN</h1>
+	<form action="/url" method="post">
+	USER:<br/>
+	<input type="text" name="user" />
+	<br/>PASSWORD:<br/>
+	<input type="text" name="password" />
+	<input type="submit" value="RUN" />
+	</form>
+	</div>
+	<div>
 	<h1>Export IP BY YOUSERF</h1>
 	<form action="/help" method="post">
 	USER:<br/>
@@ -38,7 +48,6 @@ func (c *AmazonController) ServeHTTP(rw http.ResponseWriter, req *http.Request) 
 	<input type="submit" value="RUN" />
 	</form>
 	</div>
-
 
 	<div>
 	<h1>Export IP DIY</h1>
@@ -67,6 +76,37 @@ func help(rw http.ResponseWriter, req *http.Request) {
 	password := req.Form.Get("password")
 	if user == "smart" && password == "smart2016" {
 		io.WriteString(rw, Sentiptoredis(IPPOOL))
+	} else {
+		io.WriteString(rw, "not allow!!")
+	}
+}
+
+func url(rw http.ResponseWriter, req *http.Request) {
+	err := req.ParseForm()
+	if err != nil {
+		io.WriteString(rw, err.Error())
+		return
+	}
+	user := req.Form.Get("user")
+	password := req.Form.Get("password")
+	if user == "smart" && password == "smart2016" {
+		result, err := BasicDb.Select(MyConfig.Urlsql)
+		if err != nil {
+			io.WriteString(rw, err.Error())
+			return
+		}
+		urls := []string{}
+		for _, index := range result {
+			urls = append(urls, index["id"].(string)+"|"+index["url"].(string)+"|"+index["name"].(string)+"|"+index["bigpname"].(string)+"|"+index["page"].(string))
+		}
+		s := "total:" + util.IS(len(urls)) + " urls\n"
+		for _, url := range urls {
+			_, err := RedisClient.Lpush(MyConfig.Urlpool, url)
+			if err != nil {
+				s = s + fmt.Sprintf("error:%v,%v\n", url, err)
+			}
+		}
+		io.WriteString(rw, s)
 	} else {
 		io.WriteString(rw, "not allow!!")
 	}
@@ -134,6 +174,7 @@ func ServePort(host string, ac *AmazonController) error {
 	http.Handle("/", ac)
 	http.HandleFunc("/help", help)
 	http.HandleFunc("/diy", diy)
+	http.HandleFunc("/url", url)
 	err := http.ListenAndServe(host, nil)
 	return err
 }
