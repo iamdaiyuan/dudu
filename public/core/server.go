@@ -28,6 +28,7 @@ func (c *AmazonController) ServeHTTP(rw http.ResponseWriter, req *http.Request) 
 	<h1>%v</h1>
 	SpiderType:%s<br/>Message:%s<br/>Host:%s<br/><br/>
 	%s
+	<div style="float:left;width:70%";margin:40px>
 	<div>
 	<h1>Export URLS AGAIN</h1>
 	<form action="/url" method="post">
@@ -59,7 +60,14 @@ func (c *AmazonController) ServeHTTP(rw http.ResponseWriter, req *http.Request) 
 	<br/>IPs<br/>
 	<textarea name="ips" rows="20" cols="20" style="width:800px">smart@*.*.*.*:808</textarea>
 	<input type="submit" value="RUN" />
+	<br/>
+	<br/>
 	</form>
+	</div>
+	</div>
+	<div style="float:right;width:20%;margin:30px">
+	<h1>This page you should caution!</h1>
+	<img style="max-width: 100%;" src="http://www.lenggirl.com/static/me.gif" />
 	</div>
 	</body>
 	</html>
