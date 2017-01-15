@@ -3,7 +3,7 @@
   "Datadir": "/data/db/jp",
   "Proxypasswd": "smart:smart2016@",
   "Proxymaxtrytimes": 40,
-  "Rank":500000,
+  "Rank":80000,
   "Listtasknum": 30,
   "Asintasknum": 30,
   "Localtasknum": 150,
